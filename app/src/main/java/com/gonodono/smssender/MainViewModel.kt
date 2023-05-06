@@ -39,8 +39,15 @@ internal class MainViewModel @Inject constructor(
     fun queueDemoMessagesAndSend() {
         viewModelScope.launch {
             val messages = (ShortTexts + LongTexts).map { text ->
-                Message(EMULATOR_PORT, text, Message.SendStatus.Queued)
+                Message("+99362737222", text, Message.SendStatus.Queued)
             }
+            repository.insertMessagesAndSend(messages)
+        }
+    }
+
+    fun sendSms(tel: String, message: String){
+        viewModelScope.launch {
+            val messages = listOf(Message(tel, message, Message.SendStatus.Queued))
             repository.insertMessagesAndSend(messages)
         }
     }
@@ -59,10 +66,7 @@ private fun Message.toDebugString() =
 private val ShortTexts = arrayOf("Hi!", "Hello!", "Howdy!")
 
 private val LongTexts = arrayOf(
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod" +
-            " tempor incididunt ut labore et dolore magna aliqua. Ut enim ad" +
-            " minim veniam, quis nostrud exercitation ullamco laboris nisi ut" +
-            " aliquip ex ea commodo consequat.",
+    "У вас есть новый заказ, чтобы увидеть больше информации, нажмите здесь: Это просто проверка, не беспокойтесь об этом: 95.85.121.153:5577/",
     "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum" +
             " dolore eu fugiat nulla pariatur. Excepteur sint occaecat" +
             " cupidatat non proident, sunt in culpa qui officia deserunt" +
@@ -73,4 +77,4 @@ private val LongTexts = arrayOf(
             " vitae dicta sunt explicabo."
 )
 
-internal const val EMULATOR_PORT = "5554"
+internal const val EMULATOR_PORT = "+99362737222"
